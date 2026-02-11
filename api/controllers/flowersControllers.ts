@@ -11,7 +11,7 @@ export const getFlowers = async (req: any, res: any) => {
   }
 };
 
-export const getFlowerById = async (req: Request, res: Response) => {
+export const getFlower = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
