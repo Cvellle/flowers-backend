@@ -15,8 +15,9 @@ const server = http.createServer(app);
 const io = new SocketIOServer(server);
 const PORT = process.env.PORT || 5000;
 
-// Middleware to parse JSON bodies
+// cors
 app.use(cors());
+// Middleware to parse JSON bodies
 app.use(express.json());
 
 // MongoDB connection
