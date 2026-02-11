@@ -7,8 +7,8 @@ import { Server as SocketIOServer } from "socket.io";
 import { registerSocketHandlers } from "./socket";
 import http from "http";
 import path from "path";
+import cors from "cors";
 
-const cors = require("cors");
 dotenv.config();
 const app: Application = express();
 const server = http.createServer(app);
@@ -17,22 +17,19 @@ const PORT = process.env.PORT || 5000;
 
 // cors
 const allowedOrigins = [
-  "http://localhost:3001", // Vite default port
+  "http://localhost:3001",
   "http://localhost:3000",
-  "flower-spot-app.vercel.app", // Your actual Vercel URL
+  "flower-spot-app.vercel.app",
 ];
 
 app.use(
   cors({
     origin: (origin: any, callback: any) => {
-      // 1. Allow internal server-to-server or tools like Postman (no origin)
+      // Allow internal server-to-server or tools like Postman (no origin)
       if (!origin) return callback(null, true);
-
-      // 2. Check if the domain is in our whitelist
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        // 3. Block if not whitelisted
         callback(new Error("Not allowed by CORS"));
       }
     },

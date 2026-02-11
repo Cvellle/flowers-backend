@@ -6,5 +6,6 @@ const {} = require("../controllers/flowersControllers");
 const router = Router();
 
 router.get("/", getFlowers);
+router.get("/:id", getFlower);
 
 export default router;
