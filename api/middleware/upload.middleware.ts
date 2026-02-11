@@ -1,4 +1,4 @@
-import multer from "multer";
+const multer = require("multer");
 import path from "path";
 import fs from "fs";
 
