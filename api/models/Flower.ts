@@ -10,7 +10,17 @@ const flowerSchema = new Schema<IFlower>(
     authorId: { type: String, required: true },
     sightingsNum: { type: Number, default: 0 },
   },
-  { collection: "flowers" },
+  {
+    collection: "flowers",
+    toJSON: {
+      virtuals: true,
+      versionKey: false,
+      transform: (doc, ret) => {
+        ret.id = ret._id;
+        delete ret._id;
+      },
+    },
+  },
 );
 
 export const Flower = model<IFlower>("Flower", flowerSchema);
