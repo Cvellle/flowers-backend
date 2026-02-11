@@ -1,15 +1,19 @@
-import { Router } from 'express';
-const multer = require('multer');
-const { createUser, signinUser, getCurrentUser, handleLogout, handleRefreshToken, uploadProfile } = require('../controllers/userControllers');
-const {verifyJWT} = require('../middleware/verifyJWT');
-const router = Router();
-const upload = multer({ dest: 'uploads/' });
+import { Router } from "express";
 
-router.post('/auth/user/signup', createUser);
-router.post('/auth/signin', signinUser);
-router.get('/me', verifyJWT, getCurrentUser);
-router.get('/refreshToken', handleRefreshToken);
-router.get('/logout', handleLogout);
-router.post('/profile/upload',upload.single('avatar'), uploadProfile);
+const {
+  createUser,
+  signinUser,
+  getCurrentUser,
+  handleLogout,
+  handleRefreshToken,
+} = require("../controllers/userControllers");
+const { verifyJWT } = require("../middleware/verifyJWT");
+const router = Router();
+
+router.post("/auth/user/signup", createUser);
+router.post("/auth/signin", signinUser);
+router.get("/me", verifyJWT, getCurrentUser);
+router.get("/refreshToken", handleRefreshToken);
+router.get("/logout", handleLogout);
 
 export default router;
