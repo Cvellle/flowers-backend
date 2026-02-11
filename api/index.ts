@@ -16,6 +16,7 @@ const io = new SocketIOServer(server);
 const PORT = process.env.PORT || 5000;
 
 // Middleware to parse JSON bodies
+app.use(cors());
 app.use(express.json());
 
 // MongoDB connection
@@ -31,7 +32,6 @@ mongoose
   .catch((err) => console.log("MongoDB connection error:", err));
 
 // Routes
-app.use(cors());
 app.use(express.static(path.join(__dirname, "..", "public")));
 app.use("/flowers", flowersRouter);
 
