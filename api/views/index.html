@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Socket.io TypeScript Chat</title>
+  </head>
+  <body>
+    <h1>WebSocket Chat</h1>
+    <input id="msgInput" placeholder="Type something..." />
+    <button onclick="sendMessage()">Send</button>
+    <ul id="messages"></ul>
+
+    <form id="uploadFile" enctype="multipart/form-data">
+      <input type="file" name="avatar" />
+      <button type="submit">Submit</button>
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      socket.on("connect", () => {
+        console.log("Connected ✅");
+      });
+
+      socket.on("message", (msg) => {
+        const el = document.createElement("li");
+        el.innerText = msg;
+        alert(msg);
+        document.getElementById("messages").appendChild(el);
+      });
+
+      function sendMessage() {
+        const input = document.getElementById("msgInput");
+        socket.emit("message", input.value);
+        input.value = "";
+      }
+    </script>
+    <script>
+      const form = document.getElementById("uploadFile");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault(); // prevent page reload
+
+        const formData = new FormData(form); // ✅ works on <form> elements
+
+        // To view all form entries including the file
+        // for (const [key, value] of formData.entries()) {
+        //   console.log(key, value);
+        // }
+        console.log(223, formData.toString());
+
+        console.log(123, formData.get('File'));
+
+        // Example: send to server
+        const response = await fetch("api/profile/upload", {
+          method: "POST",
+          body: formData,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        });
+
+        const result = await response.json();
+        console.log(result);
+      });
+    </script>
+  </body>
+</html>
