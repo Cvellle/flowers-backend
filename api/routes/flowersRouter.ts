@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { getFlowers } from "../controllers/flowersControllers";
+import { getFlowerById, getFlowers } from "../controllers/flowersControllers";
 
 const {} = require("../controllers/flowersControllers");
 
 const router = Router();
 
 router.get("/", getFlowers);
-router.get("/:id", getFlower);
+router.get("/:id", getFlowerById);
 
 export default router;
