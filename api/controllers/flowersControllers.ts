@@ -1,4 +1,5 @@
 import { Flower } from "../models/Flower";
+import { Request, Response } from "express";
 
 export const getFlowers = async (req: any, res: any) => {
   try {
@@ -10,22 +11,24 @@ export const getFlowers = async (req: any, res: any) => {
   }
 };
 
-import { Request, Response } from "express";
-
-export const getFlowerById = async (
-  req: Request,
-  res: Response,
-): Promise<any> => {
+export const getFlowerById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+
+    // Safety check: if id is a string "undefined", return 400 immediately
+    if (!id || id === "undefined") {
+      return res.status(400).json({ message: "No flower ID provided" });
+    }
+
     const flower = await Flower.findById(id);
 
     if (!flower) {
       return res.status(404).json({ message: "Flower not found" });
     }
 
-    return res.json(flower);
+    res.json(flower);
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    // This catches the 'CastError' if 'id' is a random string
+    res.status(500).json({ message: "Invalid ID format or Server Error" });
   }
 };
